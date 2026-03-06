@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>擲茭 - Bwa Bwei</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="lantern lantern-left"></div>
+    <div class="lantern lantern-right"></div>
+    <header>
+      <h1>楠梓高中擲茭祈福</h1>
+      <p>誠心默念您的問題，然後點擊擲茭</p>
+    </header>
+
+    <main>
+      <!-- 顯示茭杯的區域 -->
+      <div class="bwei-container">
+        <!-- 第一個茭杯 -->
+        <div class="bwei" id="bwei-1">
+          <div class="bwei-inner" id="bwei-inner-1">
+            <div class="bwei-face bwei-flat">平</div>
+            <div class="bwei-face bwei-round">凸</div>
+          </div>
+        </div>
+        <!-- 第二個茭杯 -->
+        <div class="bwei" id="bwei-2">
+          <div class="bwei-inner" id="bwei-inner-2">
+            <div class="bwei-face bwei-flat">平</div>
+            <div class="bwei-face bwei-round">凸</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 顯示結果的文字 -->
+      <h2 id="result-text" class="result-text">快點啦</h2>
+      <p id="result-desc" class="result-desc"></p>
+
+      <!-- 操作按鈕 -->
+      <button id="toss-btn" class="toss-btn">開始擲茭</button>
+
+      <!-- 歷史紀錄 -->
+      <section class="history-section">
+        <h3>歷史紀錄</h3>
+        <ul id="history-list" class="history-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

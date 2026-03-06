@@ -1,0 +1,361 @@
+/* --- 基礎設定 --- */
+:root {
+  --bg-color: #5c0b0b;
+  /* 殷紅色 */
+  --bg-gradient: radial-gradient(circle at center, #7a0f0f 0%, #3d0707 100%);
+  --text-color: #ffeeb5;
+  /* 金黃色字體 */
+  --accent-color: #ffd700;
+  /* 正金黃亮點 */
+  --bwei-color: #b01818;
+  --gold-glow: rgba(255, 215, 0, 0.5);
+  --box-bg: rgba(40, 5, 5, 0.85);
+  /* 深檀木色 */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Noto Serif TC", "PMingLiU", "\u6a19\u6977\u9ad4", serif;
+  background: var(--bg-gradient);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 加入傳統裝飾線條感 */
+  border: 15px solid #2b0404;
+  outline: 5px solid #ffd500ce;
+  outline-offset: -10px;
+}
+
+/* --- 版面配置 --- */
+.container {
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--box-bg);
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--gold-glow) inset;
+  position: relative;
+}
+
+/* 四角金邊裝飾偽元素 */
+.container::before,
+.container::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #d4af37;
+  z-index: 1;
+}
+
+.container::before {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.container::after {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.8rem;
+  color: var(--accent-color);
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 2px 2px 4px #000;
+  letter-spacing: 2px;
+}
+
+header p {
+  font-size: 1.1rem;
+  color: #eed690;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px #000;
+  letter-spacing: 1px;
+}
+
+/* --- 茭杯容器與 3D 設定 --- */
+.bwei-container {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin: 3.5rem 0;
+  perspective: 1200px;
+  /* 提供更深層的 3D 深度感 */
+}
+
+/* 單一個茭杯的容器 */
+.bwei {
+  width: 80px;
+  height: 160px;
+  position: relative;
+}
+
+/* 內部容器，用於執行 3D 翻轉動畫 */
+.bwei-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-style: preserve-3d;
+}
+
+/* 茭杯的兩個面：平滑面與凸面 */
+.bwei-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 40px 40px 90px 90px;
+  /* 模擬半月形狀 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: "\u6a19\u6977\u9ad4", serif;
+  /* 標楷體更符合傳統 */
+  box-shadow: inset -2px -2px 10px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* 平面 (陽面) */
+.bwei-flat {
+  background: linear-gradient(145deg, #ffeba1, #ffd272);
+  color: #5c0b0b;
+  border: 1px solid #cfaa5e;
+}
+
+/* 凸面 (陰面) */
+.bwei-round {
+  background: linear-gradient(145deg, #f15e5e, #7a0f0f);
+  color: #ffd700;
+  border: 1px solid #5c0b0b;
+  transform: rotateY(180deg);
+}
+
+/* 動畫：平面朝上 (0度) */
+.is-flat {
+  transform: rotateY(10deg) rotateZ(10deg);
+}
+
+/* 動畫：凸面朝上 (180度) */
+.is-round {
+  transform: rotateY(180deg) rotateZ(-10deg);
+}
+
+/* --- 擲茭動畫序列 (多次翻轉以模擬空中旋轉) --- */
+@keyframes toss {
+  0% {
+    transform: translateY(0) rotateY(0deg);
+  }
+
+  25% {
+    transform: translateY(-120px) rotateY(360deg);
+  }
+
+  50% {
+    transform: translateY(-180px) rotateY(720deg);
+  }
+
+  75% {
+    transform: translateY(-60px) rotateY(1080deg);
+  }
+
+  100% {
+    transform: translateY(0) rotateY(1440deg);
+  }
+}
+
+.animating {
+  animation: toss 1.5s ease-in-out forwards;
+}
+
+/* --- 結果顯示與按鈕 --- */
+.result-text {
+  font-size: 2.2rem;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--accent-color);
+  min-height: 2.5rem;
+  text-shadow: 0 0 10px var(--gold-glow);
+  letter-spacing: 5px;
+}
+
+.result-desc {
+  font-size: 1.2rem;
+  color: #eed690;
+  margin-bottom: 2.5rem;
+  min-height: 1.5rem;
+}
+
+.toss-btn {
+  background: linear-gradient(to bottom, #b01818, #7a0f0f);
+  color: #ffd700;
+  border: 2px solid #d4af37;
+  padding: 14px 40px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  font-family: "\u6a19\u6977\u9ad4", serif;
+  border-radius: 64px;
+  /* 傳統方正帶微圓角 */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 0 5px rgba(255, 215, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.toss-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(to bottom, #c93b3b, #8a1313);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(255, 215, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.toss-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.toss-btn:disabled {
+  background: #5c0b0b;
+  color: #a08a50;
+  border-color: #806020;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- 歷史紀錄 --- */
+.history-section {
+  margin-top: 3rem;
+  padding: 1rem;
+  background: rgba(40, 5, 5, 0.6);
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.history-section h3 {
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+  padding-bottom: 0.5rem;
+  letter-spacing: 2px;
+}
+
+.history-list {
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/* 自訂捲軸樣式 */
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 4px;
+}
+
+.history-list li {
+  padding: 0.8rem;
+  border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.history-list li:last-child {
+  border-bottom: none;
+}
+
+.history-time {
+  font-size: 0.8rem;
+  color: #a08a50;
+}
+
+.history-result-name {
+  font-size: 1.2rem;
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.history-result-desc {
+  font-size: 1rem;
+  color: #eed690;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 廟宇燈籠或額外裝飾的空間預留 */
+.lantern {
+  position: absolute;
+  top: -20px;
+  width: 40px;
+  height: 60px;
+  background: #d42222;
+  border-radius: 20px;
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 15px #ff0000;
+}
+
+.lantern::before,
+.lantern::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 6px;
+  background: #2b0404;
+}
+
+.lantern::before {
+  top: -6px;
+}
+
+.lantern::after {
+  bottom: -6px;
+}
+
+.lantern-left {
+  left: 5%;
+}
+
+.lantern-right {
+  right: 5%;
+}
